@@ -34,6 +34,10 @@ export function EnhancedChat() {
     window.location.reload()
   }
 
+  const handleCreateConversation = () => {
+    createConversation()
+  }
+
   return (
     <>
       <div className="flex h-screen">
@@ -50,7 +54,7 @@ export function EnhancedChat() {
           <div className="flex-1 p-4 space-y-2">
             <button 
               className="w-full text-left p-2 rounded-md hover:bg-accent text-sm font-medium"
-              onClick={createConversation}
+              onClick={handleCreateConversation}
             >
               + New Chat
             </button>

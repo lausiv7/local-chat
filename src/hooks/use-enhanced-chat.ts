@@ -30,7 +30,7 @@ export const useEnhancedChat = () => {
       try {
         await db.init()
         const conversations = await db.getConversations()
-        setState(prev => ({ ...prev, conversations }))
+        setState((prev: ChatState) => ({ ...prev, conversations }))
         
         // Load the most recent conversation if available
         if (conversations.length > 0) {
@@ -48,7 +48,7 @@ export const useEnhancedChat = () => {
   const loadConversation = useCallback(async (conversationId: string) => {
     try {
       const messages = await db.getMessages(conversationId)
-      setState(prev => ({ 
+      setState((prev: ChatState) => ({ 
         ...prev, 
         messages, 
         currentConversationId: conversationId 
@@ -70,7 +70,7 @@ export const useEnhancedChat = () => {
 
     try {
       await db.saveConversation(conversation)
-      setState(prev => ({ 
+      setState((prev: ChatState) => ({ 
         ...prev, 
         conversations: [conversation, ...prev.conversations],
         messages: [],
@@ -85,7 +85,7 @@ export const useEnhancedChat = () => {
   const deleteConversation = useCallback(async (conversationId: string) => {
     try {
       await db.deleteConversation(conversationId)
-      setState(prev => {
+      setState((prev: ChatState) => {
         const newConversations = prev.conversations.filter(c => c.id !== conversationId)
         const newCurrentId = prev.currentConversationId === conversationId 
           ? (newConversations[0]?.id || null)
@@ -115,7 +115,7 @@ export const useEnhancedChat = () => {
       if (conversation) {
         const updatedConversation = { ...conversation, title, updatedAt: new Date() }
         await db.saveConversation(updatedConversation)
-        setState(prev => ({
+        setState((prev: ChatState) => ({
           ...prev,
           conversations: prev.conversations.map(c => 
             c.id === conversationId ? updatedConversation : c
@@ -139,7 +139,7 @@ export const useEnhancedChat = () => {
       if (conversation) {
         const updatedConversation = { ...conversation, updatedAt: new Date() }
         await db.saveConversation(updatedConversation)
-        setState(prev => ({
+        setState((prev: ChatState) => ({
           ...prev,
           conversations: prev.conversations.map(c => 
             c.id === state.currentConversationId ? updatedConversation : c
@@ -154,7 +154,7 @@ export const useEnhancedChat = () => {
   // Initialize the MLC engine
   const initializeEngine = useCallback(async () => {
     try {
-      setState(prev => ({ ...prev, modelStatus: 'Loading model...' }))
+      setState((prev: ChatState) => ({ ...prev, modelStatus: 'Loading model...' }))
       
       const { CreateMLCEngine } = await import('@mlc-ai/web-llm')
       
@@ -162,21 +162,21 @@ export const useEnhancedChat = () => {
       
       engineRef.current = await CreateMLCEngine(MODEL_ID, {
         initProgressCallback: (progress: any) => {
-          setState(prev => ({ 
+          setState((prev: ChatState) => ({ 
             ...prev, 
             modelStatus: progress.text || 'Initializing...' 
           }))
         }
       })
 
-      setState(prev => ({ 
+      setState((prev: ChatState) => ({ 
         ...prev, 
         isModelLoaded: true, 
         modelStatus: 'Model ready!' 
       }))
     } catch (error) {
       console.error('Failed to initialize engine:', error)
-      setState(prev => ({ 
+      setState((prev: ChatState) => ({ 
         ...prev, 
         modelStatus: 'Failed to load model' 
       }))
@@ -203,7 +203,7 @@ export const useEnhancedChat = () => {
     }
 
     const newMessages = [...state.messages, userMessage]
-    setState(prev => ({ ...prev, messages: newMessages, isLoading: true }))
+    setState((prev: ChatState) => ({ ...prev, messages: newMessages, isLoading: true }))
     await saveMessages(newMessages)
 
     try {
@@ -215,7 +215,7 @@ export const useEnhancedChat = () => {
       }
 
       const messagesWithAssistant = [...newMessages, assistantMessage]
-      setState(prev => ({ ...prev, messages: messagesWithAssistant }))
+      setState((prev: ChatState) => ({ ...prev, messages: messagesWithAssistant }))
       await saveMessages(messagesWithAssistant)
 
       // Create chat completion
@@ -240,15 +240,15 @@ export const useEnhancedChat = () => {
               : msg
           )
           
-          setState(prev => ({ ...prev, messages: updatedMessages }))
+          setState((prev: ChatState) => ({ ...prev, messages: updatedMessages }))
           await saveMessages(updatedMessages)
         }
       }
 
-      setState(prev => ({ ...prev, isLoading: false }))
+      setState((prev: ChatState) => ({ ...prev, isLoading: false }))
     } catch (error) {
       console.error('Failed to get response:', error)
-      setState(prev => ({ ...prev, isLoading: false }))
+      setState((prev: ChatState) => ({ ...prev, isLoading: false }))
     }
   }, [state.messages, state.currentConversationId, createConversation, saveMessages])
 
@@ -256,7 +256,7 @@ export const useEnhancedChat = () => {
   const clearMessages = useCallback(async () => {
     if (!state.currentConversationId) return
 
-    setState(prev => ({ ...prev, messages: [] }))
+    setState((prev: ChatState) => ({ ...prev, messages: [] }))
     await saveMessages([])
   }, [state.currentConversationId, saveMessages])
 

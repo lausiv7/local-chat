@@ -34,7 +34,7 @@ export const useLocalChat = () => {
           ...msg,
           createdAt: new Date(msg.createdAt)
         }))
-        setState(prev => ({ ...prev, messages }))
+        setState((prev: ChatState) => ({ ...prev, messages }))
       }
     } catch (error) {
       console.error('Failed to load messages:', error)
@@ -53,7 +53,7 @@ export const useLocalChat = () => {
   // Initialize the MLC engine
   const initializeEngine = useCallback(async () => {
     try {
-      setState(prev => ({ ...prev, modelStatus: 'Loading model...' }))
+      setState((prev: ChatState) => ({ ...prev, modelStatus: 'Loading model...' }))
       
       // Dynamic import to avoid SSR issues
       const { CreateMLCEngine } = await import('@mlc-ai/web-llm')
@@ -62,21 +62,21 @@ export const useLocalChat = () => {
       
       engineRef.current = await CreateMLCEngine(MODEL_ID, {
         initProgressCallback: (progress: any) => {
-          setState(prev => ({ 
+          setState((prev: ChatState) => ({ 
             ...prev, 
             modelStatus: progress.text || 'Initializing...' 
           }))
         }
       })
 
-      setState(prev => ({ 
+      setState((prev: ChatState) => ({ 
         ...prev, 
         isModelLoaded: true, 
         modelStatus: 'Model ready!' 
       }))
     } catch (error) {
       console.error('Failed to initialize engine:', error)
-      setState(prev => ({ 
+      setState((prev: ChatState) => ({ 
         ...prev, 
         modelStatus: 'Failed to load model' 
       }))
@@ -98,7 +98,7 @@ export const useLocalChat = () => {
     }
 
     const newMessages = [...state.messages, userMessage]
-    setState(prev => ({ ...prev, messages: newMessages, isLoading: true }))
+    setState((prev: ChatState) => ({ ...prev, messages: newMessages, isLoading: true }))
     saveMessages(newMessages)
 
     try {
@@ -110,7 +110,7 @@ export const useLocalChat = () => {
       }
 
       const messagesWithAssistant = [...newMessages, assistantMessage]
-      setState(prev => ({ ...prev, messages: messagesWithAssistant }))
+      setState((prev: ChatState) => ({ ...prev, messages: messagesWithAssistant }))
       saveMessages(messagesWithAssistant)
 
       // Create chat completion
@@ -135,21 +135,21 @@ export const useLocalChat = () => {
               : msg
           )
           
-          setState(prev => ({ ...prev, messages: updatedMessages }))
+          setState((prev: ChatState) => ({ ...prev, messages: updatedMessages }))
           saveMessages(updatedMessages)
         }
       }
 
-      setState(prev => ({ ...prev, isLoading: false }))
+      setState((prev: ChatState) => ({ ...prev, isLoading: false }))
     } catch (error) {
       console.error('Failed to get response:', error)
-      setState(prev => ({ ...prev, isLoading: false }))
+      setState((prev: ChatState) => ({ ...prev, isLoading: false }))
     }
   }, [state.messages, saveMessages])
 
   // Clear all messages
   const clearMessages = useCallback(() => {
-    setState(prev => ({ ...prev, messages: [] }))
+    setState((prev: ChatState) => ({ ...prev, messages: [] }))
     localStorage.removeItem('local-chat-messages')
   }, [])
 
