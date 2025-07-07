@@ -116,4 +116,16 @@ Available models can be found in the [WebLLM documentation](https://github.com/m
 
 ## License
 
-MIT License - see LICENSE file for details 
+MIT License - see LICENSE file for details
+
+## Supabase 인증 연동
+
+- 이메일/비밀번호 기반 회원가입 및 로그인 지원
+- 환경변수 설정 필요: `.env.local` 파일에 아래 항목 추가
+
+```
+NEXT_PUBLIC_SUPABASE_URL=https://iqgycwryfqtxpuhwapoy.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlxZ3ljd3J5ZnF0eHB1aHdhcG95Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE4NDEyMTQsImV4cCI6MjA2NzQxNzIxNH0.vr_9Yf3nM6U_XHR-DfV3MIuHzuoG3Kxn5pUVlsQE8dY
+```
+- Vercel 등 배포 환경에도 동일하게 환경변수 등록 필요
+- 로그인하지 않으면 채팅 기능 접근 불가 

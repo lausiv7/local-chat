@@ -1,7 +1,7 @@
-'use client'
+export const dynamic = "force-dynamic";
 
-import { EnhancedChat } from '@/components/enhanced-chat'
+import AuthChatGate from '@/components/auth-chat-gate'
 
-export default function Home() {
-  return <EnhancedChat />
+export default function HomePage() {
+  return <AuthChatGate />
 } 

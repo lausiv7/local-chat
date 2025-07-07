@@ -24,7 +24,8 @@
     "lucide-react": "^0.294.0",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
-    "nanoid": "^5.0.4"
+    "nanoid": "^5.0.4",
+    "@supabase/supabase-js": "^2.39.7"
   },
   "devDependencies": {
     "typescript": "^5",
