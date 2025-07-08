@@ -1,11 +1,12 @@
+import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import './globals.css'
+import HeaderBar from '@/components/header-bar'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Local Chat - AI Chatbot',
+  title: 'Local Chat',
   description: 'Local-first AI chatbot powered by MLC-AI Web-LLM',
   manifest: '/manifest.json',
 }
@@ -41,6 +42,7 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
+        <HeaderBar />
         {children}
       </body>
     </html>
