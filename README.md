@@ -128,7 +128,8 @@ NEXT_PUBLIC_SUPABASE_URL=https://iqgycwryfqtxpuhwapoy.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlxZ3ljd3J5ZnF0eHB1aHdhcG95Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE4NDEyMTQsImV4cCI6MjA2NzQxNzIxNH0.vr_9Yf3nM6U_XHR-DfV3MIuHzuoG3Kxn5pUVlsQE8dY
 ```
 - Vercel 등 배포 환경에도 동일하게 환경변수 등록 필요
-- 로그인하지 않으면 채팅 기능 접근 불가 
+- 로그인/회원가입은 사이드바 하단에서만 가능합니다.
+- 로그인하지 않아도 로컬 LLM 채팅 기능은 항상 사용 가능합니다.
 
 ## 인증(로그인) 방식
 
