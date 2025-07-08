@@ -1,68 +1,24 @@
-import { useState } from 'react'
+import { createClient } from '@supabase/supabase-js'
 
-interface AuthFormProps {
-  signIn: (email: string, password: string) => Promise<void>
-  signUp: (email: string, password: string) => Promise<void>
-  loading: boolean
-  error: string | null
-  success: string
-  setSuccess: (msg: string) => void
-}
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
-export default function AuthForm({ signIn, signUp, loading, error, success, setSuccess }: AuthFormProps) {
-  const [isSignUp, setIsSignUp] = useState(false)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setSuccess('')
-    if (isSignUp) {
-      await signUp(email, password)
-      setSuccess('회원가입 완료! 이메일을 확인하세요.')
-    } else {
-      await signIn(email, password)
-      setSuccess('로그인 성공!')
-    }
+export default function AuthForm() {
+  const handleGoogleLogin = async () => {
+    await supabase.auth.signInWithOAuth({ provider: 'google' })
   }
-
   return (
-    <form onSubmit={handleSubmit} className="max-w-sm mx-auto p-4 border rounded space-y-4">
-      <h2 className="text-xl font-bold text-center">{isSignUp ? '회원가입' : '로그인'}</h2>
-      <input
-        type="email"
-        placeholder="이메일"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        className="w-full p-2 border rounded"
-        required
-      />
-      <input
-        type="password"
-        placeholder="비밀번호"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-        className="w-full p-2 border rounded"
-        required
-      />
+    <div className="max-w-sm mx-auto p-8 border rounded space-y-6 bg-white">
+      <h2 className="text-2xl font-bold text-center">Welcome</h2>
+      <p className="text-center text-gray-500 mb-4">Sign in to create a persistent local identity.</p>
       <button
-        type="submit"
-        className="w-full bg-blue-600 text-white py-2 rounded disabled:opacity-50"
-        disabled={loading}
+        onClick={handleGoogleLogin}
+        className="w-full bg-blue-400 text-white py-3 rounded text-lg font-medium hover:bg-blue-500 transition"
       >
-        {loading ? '처리 중...' : isSignUp ? '회원가입' : '로그인'}
+        Sign In with Google
       </button>
-      {error && <div className="text-red-500 text-sm text-center">{error}</div>}
-      {success && <div className="text-green-600 text-sm text-center">{success}</div>}
-      <div className="text-center">
-        <button
-          type="button"
-          className="text-blue-500 underline text-sm"
-          onClick={() => setIsSignUp(v => !v)}
-        >
-          {isSignUp ? '이미 계정이 있으신가요? 로그인' : '계정이 없으신가요? 회원가입'}
-        </button>
-      </div>
-    </form>
+    </div>
   )
 } 

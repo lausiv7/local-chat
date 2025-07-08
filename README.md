@@ -129,3 +129,15 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzd
 ```
 - Vercel 등 배포 환경에도 동일하게 환경변수 등록 필요
 - 로그인하지 않으면 채팅 기능 접근 불가 
+
+## 인증(로그인) 방식
+
+- 현재는 **구글 소셜 로그인(OAuth)**만 지원합니다.
+- 로그인 버튼 클릭 시 구글 계정으로 인증 후, 자동으로 원래 웹앱으로 복귀합니다.
+- 이메일/비밀번호 로그인은 추후 지원 예정입니다.
+
+### 구글 OAuth 연동 방법
+1. 구글 클라우드 콘솔에서 새 프로젝트 생성
+2. OAuth 동의화면 설정 및 OAuth 2.0 Client ID/Secret 발급
+3. Supabase Auth > Providers > Google에 Client ID/Secret 등록
+4. 승인된 리디렉션 URI: `https://<your-supabase-project-ref>.supabase.co/auth/v1/callback` 
